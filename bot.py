@@ -7,9 +7,10 @@ from aiogram.methods import BanChatMember
 import asyncio
 import logging
 from telegram.ext import CallbackContext, CallbackQueryHandler
+import os
 
 # Конфігурація
-API_TOKEN = "7531089581:AAF5fnVbxNsje2GyU7RLn5Krgnp5bNV3BQA"
+API_TOKEN = os.getenv("API_TOKEN")
 CHANNEL_ID = -1002485164281  # ID вашого каналу
 ADMIN_IDS = [521090103]  # ID адміністраторів
 FORBIDDEN_WORDS = {"погано", "заборонено", "спам", "Спам"}
