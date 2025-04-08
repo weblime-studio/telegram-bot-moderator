@@ -99,7 +99,8 @@ async def moderate_comments(message: Message):
     logger.info(f"Отримано повідомлення: {message.text} від {message.from_user.username} {message.from_user.id}")
 
     # Перевірка на заборонені слова
-    if any(word in message.text.lower() for word in FORBIDDEN_WORDS):
+    matched_word = next((word for word in FORBIDDEN_WORDS if word in message.text.lower()), None)
+    if matched_word:
         logger.info("Повідомлення містить заборонені слова. Надсилання на модерацію...")
 
         try:
@@ -119,7 +120,7 @@ async def moderate_comments(message: Message):
                     
                     f"залишив коментар у каналі <a href='https://t.me/{message.chat.username or 'анонімний канал'}'>{message.chat.title}</a> \n"
                     
-                    f"<b>Текст коментаря:</b> «{message.text}»",
+                    f"<b>Слово: {matched_word} \nТекст коментаря:</b> «{message.text}»",
 
                     parse_mode="HTML",
                     reply_markup=keyboard
