@@ -26,7 +26,13 @@ bot = Bot(token=API_TOKEN, session=AiohttpSession(), default=DefaultBotPropertie
 dp = Dispatcher()
 router = Router()
 
-
+def find_matched_word(text: str, forbidden_words: set) -> str | None:
+    words = set(re.findall(r'\b\w+\b', text.lower()))  # знайти всі "слова"
+    for word in forbidden_words:
+        if word in words:
+            return word
+    return None
+    
 # Функція для створення клавіатури
 def get_admin_keyboard(username, user_id, message_id, original_text):
     try:
@@ -99,7 +105,7 @@ async def moderate_comments(message: Message):
     logger.info(f"Отримано повідомлення: {message.text} від {message.from_user.username} {message.from_user.id}")
 
     # Перевірка на заборонені слова
-    matched_word = next((word for word in FORBIDDEN_WORDS if word in message.text.lower()), None)
+    matched_word = find_matched_word(message.text, FORBIDDEN_WORDS)
     if matched_word:
         logger.info("Повідомлення містить заборонені слова. Надсилання на модерацію...")
 
