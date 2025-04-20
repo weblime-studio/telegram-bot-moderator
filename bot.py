@@ -8,6 +8,7 @@ import asyncio
 import logging
 from telegram.ext import CallbackContext, CallbackQueryHandler
 import os
+import re
 
 # Конфігурація
 API_TOKEN = os.getenv("API_TOKEN")
